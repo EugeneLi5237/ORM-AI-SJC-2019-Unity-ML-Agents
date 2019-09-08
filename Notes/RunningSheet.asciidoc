@@ -3,16 +3,18 @@
 // Paris Buttfield-Addison <paris@secretlab.com.au>
 // v1.0, 20 June 2019
 
-= AI problem-solving with Unity ML-Agents
+= Build a self-driving car without a car: ML problem-solving with a game engine
 
-Paris Buttfield-Addison, Tim Nugent, Mars Geldard, Jon Manning
+Paris Buttfield-Addison (@parisba), Tim Nugent (@the_mcjones), Mars Geldard (@themartianlife)
+
+Additional Material by Jon Manning (@desplesda)
 
 image::images/idiotchild.jpg[]
 
 === Unity Machine Learning Agents Toolkit
 The Unity Machine Machine Learning Agents Toolkit (ML-Agents) is an open-source suite of tools, including Unity plugins, Python scripts, and algorithm implementations, that enables the Unity environment to serve for both training and inference of intelligent agents.
 
-This document provides an outline of the material from the tutorial https://conferences.oreilly.com/oscon/oscon-or/public/schedule/detail/76096[AI problem-solving with Unity and TensorFlow] from OSCON 2019.
+This document provides an outline of the material from the tutorial https://conferences.oreilly.com/artificial-intelligence/ai-ca/public/schedule/detail/78681[Build a self-driving car without a car: ML problem-solving with a game engine] from the O'Reilly Artificial Intelligence Conference 2019, in San Jose.
 
 It's not really intended to stand-alone, without readers having attended the conference, but it could still be useful!
 
