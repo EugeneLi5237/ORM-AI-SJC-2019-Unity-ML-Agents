@@ -462,6 +462,9 @@ if(isCollided) {
     AddReward(0.05f); // what a good car you are!
 }
 ----
+. Drive the car again! Now we can collide.
+
+The next step is training the car to drive itself.
 
 
 ==== Training the Car
@@ -469,7 +472,6 @@ if(isCollided) {
 We'll now look at training the car with **reinforcement learning** and **imitation learning**!
 
 To train the car with **reinforcement learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like aiconf_config.yaml, with the following in it:
-+
 [source,yaml]
 ----
 default:
@@ -506,19 +508,19 @@ Car_LearningBrain:
     normalize: true
     time_horizon: 1000
 ----
-+
+
 Your learning brain will need to be named the same as the second set of parameters (in this case, "Car_LearningBrain"). 
 
 TIP: Don't forget to set the parameters of the brain and academy in Unity for training! You'll want the control checkbox checked next to the learning brain, any existing models detached from the brain, and you probably want the speed and quality of the simulation turned down.
 
 To train the reinforcement learning brain, the following command will be used:
-+
+
 `mlagents-learn config/aiconf_config.yaml --run-id=AIConfCar1 --train`
-+
+
 We recommend incrementing the run-id parameter if you change something significant. You can also resume training on a run that was used before (adding more information to the neural net), by adding `--load` to the end of the above command. That will resume the named run-id.
 
 To train the car with **imitation learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like aiconf_imitation_config.yaml, with the following in it:
-+
+
 [source,yaml]
 ----
 default:
@@ -535,7 +537,7 @@ default:
     memory_size: 256
     demo_path: ./UnitySDK/Assets/Demonstrations/PATH_TO_DEMO.demo
 ----
-+
+
 You'll need to relace the .demo file in the parameters with one you want to use, as recorded in the Unity environment. To record a demo:
 
 * Add the "BC Recording Helper" and "Demonstration Recorder" components to your Agent and assign a name.
@@ -545,9 +547,9 @@ You'll need to relace the .demo file in the parameters with one you want to use,
 * You can now point the config yaml file to the .demo file you just made.
 
 To train the imitation learning brain, the following command will be used:
-+
+
 `mlagents-learn config/aiconf_imitation_config.yaml --run-id=AIConfCarIL1 --train`
-+
+
 We recommend incrementing the run-id parameter if you change something significant. You can also resume training on a run that was used before (adding more information to the neural net), by adding `--load` to the end of the above command. That will resume the named run-id.
 
 [[Activity3]]
@@ -579,140 +581,24 @@ The **Rewards** are _+0.1_ for arriving in any state that isn't optimal, and _+1
 
 . Expand the "Activity3-RobotWarehouse" folder in the _Project_ pane. Open the first scene (from the "Scenes" folder).
 . Open the BeepoAgent.cs script.
-. First, let's set up the `Awake()` function to configure things when the agent wakes up:
-+
-[source,csharp]
-----
-   void Awake()
-    {
-        academy = FindObjectOfType<BeepoAcademy>(); //cache the academy
-
-        goals = area.GetComponentsInChildren<CrateDestination>();
-        blocks = area.GetComponentsInChildren<Crate>();
-
-        foreach (var goal in goals)
-        {
-            goal.SetColor(academy.FindGoalDefinition(goal.type).color);
-        }
-
-        foreach (var block in blocks)
-        {
-            block.SetColor(academy.FindGoalDefinition(block.type).color);
-        }
-    }
-----
-. Next, let's set up the `InitializeAgent()` function to do a little bit more setup:
-+
-[source,csharp]
-----
-    public override void InitializeAgent()
-    {
-        base.InitializeAgent();
-
-        foreach (var block in blocks) {
-            block.agent = this;
-        }
-
-        agentRB = GetComponent<Rigidbody>();
-
-        rayPer = GetComponent<RayPerception>();
-
-        // Get the ground's bounds
-        areaBounds = ground.GetComponent<Collider>().bounds;
-        
-    }
-----
 . Now we need to do some work in `CollectObservations()`:
 +
 [source,csharp]
 ----
    public override void CollectObservations()
     {
-        if (useVectorObs)
-        {
-            var rayDistance = 12f;
-            float[] rayAngles = { 0f, 45f, 90f, 135f, 180f, 110f, 70f };
-            var detectableObjects = new[] { "crate", "goal", "wall" };
-            AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
-            AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
-        }
+        var rayDistance = 12f;
+
+        float[] rayAngles = { 0f, 45f, 90f, 135f, 180f, 110f, 70f };
+
+        var detectableObjects = new[] { "crate", "goal", "wall" };
+
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
+
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
     }
 ----
-. Next, implement `IScoreAGoal()`:
-+
-[source,csharp]
-----
-   public void IScoredAGoal(GameObject target, GameObject goal)
-    {
-        // We use a reward of 5.
-        AddReward(5f);
-        Debug.Log("Agent delivered package!");
-
-        var allGoalsComplete = true;
-        foreach (var block in blocks) {
-            if (block.IsActive == true) {
-                allGoalsComplete = false;
-            }
-        }
-
-        if (allGoalsComplete) {
-            // By marking an agent as done AgentReset() will be called automatically.
-        
-            Done();
-        }
-    }
-----
-. And `IHitWrongGoal()`:
-+
-[source,csharp]
-----
-    public void IHitWrongGoal(GameObject target, GameObject goal)
-    {
-        // We use a reward of 5.
-        AddReward(-5f);
-    }
-----
-. And `MoveAgent()`:
-+
-[source,csharp]
-----
-public void MoveAgent(float[] act)
-    {
-
-        Vector3 dirToGo = Vector3.zero;
-        Vector3 rotateDir = Vector3.zero;
-
-        int action = Mathf.FloorToInt(act[0]);
-
-        switch (action)
-        {
-            case 1:
-                dirToGo = transform.forward * 1f;
-                break;
-            case 2:
-                dirToGo = transform.forward * -1f;
-                break;
-            case 3:
-                rotateDir = transform.up * 1f;
-                break;
-            case 4:
-                rotateDir = transform.up * -1f;
-                break;
-            case 5:
-                dirToGo = transform.right * -0.75f;
-                break;
-            case 6:
-                dirToGo = transform.right * 0.75f;
-                break;
-        }
-        transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
-
-        agentRB.AddForce(dirToGo * academy.agentRunSpeed,
-                         ForceMode.VelocityChange);
-
-    }
-----
-. And the closely related `AgentAction()`:
+. And  `AgentAction()`:
 +
 [source,csharp]
 ----
@@ -723,24 +609,6 @@ public override void AgentAction(float[] vectorAction, string textAction)
 
         // Penalty given each step to encourage agent to finish task quickly.
         AddReward(-1f / agentParameters.maxStep);
-    }
-----
-. And, finally, `AgentReset()`:
-+
-[source,csharp]
-----
-public override void AgentReset()
-    {
-        int rotation = Random.Range(0, 4);
-        float rotationAngle = rotation * 90f;
-        area.transform.Rotate(new Vector3(0f, rotationAngle, 0f));
-
-        ResetBlocks();
-        transform.position = GetRandomSpawnPos();
-        agentRB.velocity = Vector3.zero;
-        agentRB.angularVelocity = Vector3.zero;
-
-        
     }
 ----
 
@@ -761,7 +629,7 @@ image::images/learningbrainwarehouse.png[]
 image::images/mlagentsdirectory.png[]
 
 [start=5]
-. Create a new config file, ours is called oscon_robot_trainer_config.yaml, and add the following:
+. Create a new config file, ours is called ai_robot_trainer.yaml, and add the following:
 +
 [source,yaml]
 ----
@@ -806,12 +674,12 @@ Make sure you replace the "Warehouse_Learning_OneCrate" with the name of your Br
 . Point the Academy to the brain you made, and tick the control box. Set the Training Configuration to make it speedy!
 . To start training, issue the following command:
 +
-`mlagents-learn config/oscon_trainer_config.yaml --run-id=UnityML_OSCON1 --train`
+`mlagents-learn config/ai_robot_trainer.yaml --run-id=Warehouse1 --train`
 +
 Make sure you increment the number of the run-ID, so we can keep track of what we're doing. When you execute this, you'll be asked to press play in Unity.
 . Run the training:
 +
-`mlagents-learn config/oscon_trainer_config.yaml --run-id=OSCON_Warehouse_OneCrate1 --train`
+`mlagents-learn config/ai_robot_trainer.yaml --run-id=Warehouse1 --train`
 . Move the trained .nn file into the project, turn off control in the Academy, and put the .nn file into the brain. Play!
 
 ==== Extra Credit
@@ -828,166 +696,9 @@ In this activity, we're going to take the warehouse buggy, "Beepo", and give him
 
 To do this, we're going to use reinforcement learning, and some vector observations.
 
-. Create a BeepoBounceTreat.cs C# script:
-+
-[source,csharp]
-----
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MLAgents;
-
-public class BeepoBounceTreat: MonoBehaviour
-{
-
-    // Update is called once per frame
-    void FixedUpdate ()
-    {
-        gameObject.transform.Rotate(new Vector3(1, 0, 0), 0.5f);
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        Agent agent = collision.gameObject.GetComponent<Agent>();
-
-        if (agent != null)
-        {
-            agent.AddReward(1f);
-            Debug.Log("Treat acquired!");
-            Respawn();
-        }
-
-    }
-
-    public void Respawn()
-    {
-        gameObject.transform.localPosition = 
-            new Vector3(
-                (1 - 2 * Random.value) * 5f, 
-                2f+ Random.value * 5f, 
-                (1 - 2 * Random.value) * 5f);
-    }
-
-}
-----
-+ 
-This is just a plain old `MonoBehaviour`. It makes the treat rotate like a powerup from a video game, it adds a `Respawn()` function that "respawns" the treat by making it move somewhere else, and it adds an `OnTriggerEnter()` function so we can detect when the treat collides with the agent (Beepo), and give Beepo a reward and then tell the treat to respawn (which moves it somewhere else, trapping Beepo in a perpetual cycle of treats).
-. Create a BeepoBounceAcademy.cs C# script:
-+
-[source,csharp]
-----
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MLAgents;
-
-public class BeepoBounceAcademy : Academy {
-
-    public float gravityMultiplier = 1f;
-
-    public override void InitializeAcademy()
-    {
-        Physics.gravity = new Vector3(0,-9.8f*gravityMultiplier,0);
-    }
-
-    public override void AcademyReset()
-    {
-
-
-    }
-
-    public override void AcademyStep()
-    {
-
-
-    }
-
-}
-----
-+
-This Academy sets gravity to a multiplier that we can control on the academy, via the _Inspector_.
-. Next, create a BeepoBounceAgent.cs C# script. Add the following in the `CollectObservations()` method:  
-+
-[source,csharp]
-----
-    public override void CollectObservations()
-    {
-        AddVectorObs(gameObject.transform.localPosition);
-        
-        GameObject environment = gameObject.transform.parent.gameObject;
-        BeepoBounceTreat[] treats = environment.GetComponentsInChildren<BeepoBounceTreat>();
-
-        foreach (BeepoBounceTreat bb in treats)
-        {
-            Debug.Log("There's treats at: " + bb.transform.localPosition);
-            AddVectorObs(bb.transform.localPosition);
-        }
-    }
-----
-. Next, add the following `AgentAction()`:
-+
-[source,csharp]
-----
-    public override void AgentAction(float[] vectorAction, string textAction)
-	{
-	    for (int i = 0; i < vectorAction.Length; i++)
-	    {
-	        vectorAction[i] = Mathf.Clamp(vectorAction[i], -1f, 1f);
-	    }
-        float x = vectorAction[0];
-        float y = ScaleAction(vectorAction[1], 0, 1);
-        float z = vectorAction[2];
-        rb.AddForce( new Vector3(x, y+1, z) * strength);
-
-        AddReward(-0.05f * (
-            vectorAction[0] * vectorAction[0] +
-            vectorAction[1] * vectorAction[1] +
-            vectorAction[2] * vectorAction[2]) / 3f);
-
-        lookDir = new Vector3(x, y, z);
-    }
-----
-. And add a `FixedUpdate()`:
-+
-[source,csharp]
-----
-    private void FixedUpdate()
-    {
-        if (Physics.Raycast(transform.position, new Vector3(0f,-1f,0f), 0.51f) && jumpCooldown <= 0f)
-        {
-            RequestDecision();
-            jumpLeft -= 1;
-            jumpCooldown = 0.1f;
-            rb.velocity = default(Vector3);
-        }
-        
-        jumpCooldown -= Time.fixedDeltaTime;
-        
-        if (gameObject.transform.position.y < -1)
-        {
-            AddReward(-1);
-            Done();
-            return;
-        }
-        
-        if (gameObject.transform.localPosition.x < -19 || gameObject.transform.localPosition.x >19
-            || gameObject.transform.localPosition.z < -19 || gameObject.transform.localPosition.z > 19)
-        {
-            AddReward(-1);
-            Done();
-            return;
-        }
-
-        if (jumpLeft == 0)
-        {
-            Done();
-        }
-    }
-----
-
 Next, train the agent!
 
-. Add the following to your config:
+. Add the following to a config yaml file:
 +
 [source,yaml]
 ----
@@ -1024,7 +735,7 @@ BeepoBounceLearning:
 . Turn on control on the Academy.
 . Run training:
 +
-`mlagents-learn config/bounce_trainer_config.yaml --run-id=OSCON_Bouncer1 --train`
+`mlagents-learn config/bounce_trainer_config.yaml --run-id=AIBouncer1 --train`
 . Copy the trained model in! Attach it to the brain, and see how you go!
 
 [[Activity5]]

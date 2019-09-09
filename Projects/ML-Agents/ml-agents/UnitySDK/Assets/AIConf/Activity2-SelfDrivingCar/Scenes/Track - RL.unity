@@ -810,7 +810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 171477258}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 8
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1673,7 +1673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 360674788}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 2
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4006,7 +4006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 825355942}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 3
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4202,7 +4202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862440258}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 1
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4701,7 +4701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 961966143}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 11
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4806,6 +4806,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2280837936444576336, guid: ac5ce823247ca4c16bd23d44c2dc508d,
     type: 3}
   m_PrefabInstance: {fileID: 967825039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &971603462 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3160834365530254376, guid: 24b800c2b421f44a5b8234cd5f7ca7b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1234950123}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &995094263
 PrefabInstance:
@@ -6018,7 +6024,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1162890500}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 10
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -6573,29 +6579,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brain: {fileID: 11400000, guid: f56a2258ecf3f48459f7faffccfed126, type: 2}
   agentParameters:
-    agentCameras: []
+    agentCameras:
+    - {fileID: 971603462}
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
-  resetPoint: {fileID: 0}
+  resetPoint: {fileID: 2144266033}
   agentIsTraining: 0
   trackWaypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2144266033}
+  - {fileID: 862440258}
+  - {fileID: 360674788}
+  - {fileID: 825355942}
+  - {fileID: 1988977500}
+  - {fileID: 1293850776}
+  - {fileID: 1443165696}
+  - {fileID: 1784723279}
+  - {fileID: 171477258}
+  - {fileID: 1392292811}
+  - {fileID: 1162890500}
+  - {fileID: 961966143}
+  - {fileID: 1897207699}
+  - {fileID: 2144266033}
 --- !u!4 &1245971546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e409372fa827944e88e6ffad739c2bd6,
@@ -6739,7 +6746,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1293850776}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 5
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -6775,7 +6782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1392292811}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 9
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -6885,7 +6892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1443165696}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 6
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -7891,7 +7898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1784723279}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 7
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8274,7 +8281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1897207699}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint End
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8493,7 +8500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1988977500}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint 4
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8761,11 +8768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: cbb70dc9590b748e0978bde4b7c50eff, type: 2}
-  isGlobal: 1
-  blendDistance: 0
-  weight: 1
-  priority: 0
 --- !u!4 &2049491226
 Transform:
   m_ObjectHideFlags: 0
@@ -8972,54 +8974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 2102147057}
-  volumeLayer:
-    serializedVersion: 2
-    m_Bits: 16384
-  stopNaNPropagation: 1
-  finalBlitToCameraTarget: 1
-  antialiasingMode: 0
-  temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
-  subpixelMorphologicalAntialiasing:
-    quality: 2
-  fastApproximateAntialiasing:
-    fastMode: 0
-    keepAlpha: 0
-  fog:
-    enabled: 1
-    excludeSkybox: 1
-  debugLayer:
-    lightMeter:
-      width: 512
-      height: 256
-      showCurves: 1
-    histogram:
-      width: 512
-      height: 256
-      channel: 3
-    waveform:
-      exposure: 0.12
-      height: 256
-    vectorscope:
-      size: 256
-      exposure: 0.12
-    overlaySettings:
-      linearDepth: 0
-      motionColorIntensity: 4
-      motionGridSize: 64
-      colorBlindnessType: 0
-      colorBlindnessStrength: 1
-  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
-  breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
 --- !u!81 &2102147059
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9258,54 +9212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 2134487205}
-  volumeLayer:
-    serializedVersion: 2
-    m_Bits: 16384
-  stopNaNPropagation: 1
-  finalBlitToCameraTarget: 1
-  antialiasingMode: 0
-  temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
-  subpixelMorphologicalAntialiasing:
-    quality: 2
-  fastApproximateAntialiasing:
-    fastMode: 0
-    keepAlpha: 0
-  fog:
-    enabled: 1
-    excludeSkybox: 1
-  debugLayer:
-    lightMeter:
-      width: 512
-      height: 256
-      showCurves: 1
-    histogram:
-      width: 512
-      height: 256
-      channel: 3
-    waveform:
-      exposure: 0.12
-      height: 256
-    vectorscope:
-      size: 256
-      exposure: 0.12
-    overlaySettings:
-      linearDepth: 0
-      motionColorIntensity: 4
-      motionGridSize: 64
-      colorBlindnessType: 0
-      colorBlindnessStrength: 1
-  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
-  breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
 --- !u!81 &2134487202
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9596,7 +9502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2144266033}
   m_Layer: 0
-  m_Name: Waypoint
+  m_Name: Waypoint Start
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

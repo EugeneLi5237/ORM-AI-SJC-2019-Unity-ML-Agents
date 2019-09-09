@@ -40,20 +40,42 @@ public class BeepoAgent: Agent, IPushAgent
     
     private Rigidbody agentRB;
 
-    public bool useVectorObs;
-
     RayPerception rayPer;
 
       // ============== ABOVE HERE SHOULD NOT NEED TO TOUCH =============
 
     void Awake()
     {
-        // code for awake goes here
+        academy = FindObjectOfType<BeepoAcademy>(); //cache the academy
+
+        goals = area.GetComponentsInChildren<CrateDestination>();
+        blocks = area.GetComponentsInChildren<Crate>();
+
+        foreach (var goal in goals)
+        {
+            goal.SetColor(academy.FindGoalDefinition(goal.type).color);
+        }
+
+        foreach (var block in blocks)
+        {
+            block.SetColor(academy.FindGoalDefinition(block.type).color);
+        }
     }
 
     public override void InitializeAgent()
     {
-        // code for init goes here
+        base.InitializeAgent();
+
+        foreach (var block in blocks) {
+            block.agent = this;
+        }
+
+        agentRB = GetComponent<Rigidbody>();
+
+        rayPer = GetComponent<RayPerception>();
+
+        // Get the ground's bounds
+        areaBounds = ground.GetComponent<Collider>().bounds;
     }
 
     public override void CollectObservations()
@@ -66,7 +88,36 @@ public class BeepoAgent: Agent, IPushAgent
     /// </summary>
 	public void MoveAgent(float[] act)
     {
-        // Moving code goes here
+        Vector3 dirToGo = Vector3.zero;
+        Vector3 rotateDir = Vector3.zero;
+
+        int action = Mathf.FloorToInt(act[0]);
+
+        switch (action)
+        {
+            case 1:
+                dirToGo = transform.forward * 1f;
+                break;
+            case 2:
+                dirToGo = transform.forward * -1f;
+                break;
+            case 3:
+                rotateDir = transform.up * 1f;
+                break;
+            case 4:
+                rotateDir = transform.up * -1f;
+                break;
+            case 5:
+                dirToGo = transform.right * -0.75f;
+                break;
+            case 6:
+                dirToGo = transform.right * 0.75f;
+                break;
+        }
+        transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
+
+        agentRB.AddForce(dirToGo * academy.agentRunSpeed,
+                         ForceMode.VelocityChange);
     }
 
     /// <summary>
@@ -82,12 +133,28 @@ public class BeepoAgent: Agent, IPushAgent
     /// </summary>
     public void IScoredAGoal(GameObject target, GameObject goal)
     {
-        // code for goal scoring goes here
-    }
+        // We use a reward of 5.
+        AddReward(5f);
+        Debug.Log("Agent delivered package!");
+
+        var allGoalsComplete = true;
+        foreach (var block in blocks) {
+            if (block.IsActive == true) {
+                allGoalsComplete = false;
+            }
+        }
+
+        if (allGoalsComplete) {
+            // By marking an agent as done AgentReset() will be called automatically.
+        
+            Done();
+        }
+   }
 
     public void IHitWrongGoal(GameObject target, GameObject goal)
     {
-        // code for getting wrong goal goes here
+        // We use a reward of -5.
+        AddReward(-5f);
     }
 
     /// <summary>
@@ -97,7 +164,14 @@ public class BeepoAgent: Agent, IPushAgent
     /// </summary>
 	public override void AgentReset()
     {
-        // agent reset code goes here        
+        int rotation = Random.Range(0, 4);
+        float rotationAngle = rotation * 90f;
+        area.transform.Rotate(new Vector3(0f, rotationAngle, 0f));
+
+        ResetBlocks();
+        transform.position = GetRandomSpawnPos();
+        agentRB.velocity = Vector3.zero;
+        agentRB.angularVelocity = Vector3.zero;
     }
 
     /// <summary>

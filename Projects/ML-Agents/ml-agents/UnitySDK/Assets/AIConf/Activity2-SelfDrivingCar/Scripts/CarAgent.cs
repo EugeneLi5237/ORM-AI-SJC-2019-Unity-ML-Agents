@@ -10,7 +10,6 @@ namespace UnityStandardAssets.Vehicles.Car {
         private Rigidbody rigidBody;
         public Transform resetPoint;
 
-        // NEW STUFF
         private float lapTime = 0;
         private float bestLapTime = 0;
         private bool isCollided = false;
@@ -28,19 +27,7 @@ namespace UnityStandardAssets.Vehicles.Car {
         // When the agent requests an action
         // Called every tick to check what the car should do next
         public override void AgentAction(float[] vectorAction, string textAction) {
-            // float h = vectorAction[0];
-            // //float v = vectorAction[1];
-            // carController.Move(h, 1, 0, 0);
-
-            // // Once the actions are done, we need to check:
-            // if(isCollided) {
-            //     // we hit something
-            //     AddReward(-1.0f); // you get a punishment, you get a punishment, we all get punishments!
-            //     Done();
-            // } else {
-            //     // we did not hit something
-            //     AddReward(0.05f); // what a good car you are!
-            // }
+            // To be filled in!
         }
 
         public override void AgentReset() {
