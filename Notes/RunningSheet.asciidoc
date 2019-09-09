@@ -18,9 +18,9 @@ This document provides an outline of the material from the tutorial https://conf
 
 It's not really intended to stand-alone, without readers having attended the conference, but it could still be useful!
 
-This document is sourced from, and accompanied by, the contents of this GitHub repository: https://github.com/parisba/OSCON2019-UnityML
+This document is sourced from, and accompanied by, the contents of this GitHub repository: https://github.com/parisba/ORM-AI-SJC-2019-Unity-ML-Agents/
 
-WARNING: This document isn't intended to explain why everything works the way it does. This document is here to help you keep your place with the tutorial content at OSCON. It's so you don't fall behind, and have something to refer to if you need to catch up. We recommend you keep your own notes about why things work the way they do.
+WARNING: This document isn't intended to explain why everything works the way it does. This document is here to help you keep your place with the tutorial content at AI Conference. It's so you don't fall behind, and have something to refer to if you need to catch up. We recommend you keep your own notes about why things work the way they do.
 
 [[structure]]
 === Structure
@@ -158,7 +158,7 @@ However, that's a bit of a chore, and we have a better solution! We've build a r
 
 . Clone our GitHub repository to your machine:
 +
-`git clone https://github.com/thesecretlab/OSCON-2019-Unity-ML-Agents.git`
+`git clone https://github.com/parisba/ORM-AI-SJC-2019-Unity-ML-Agents.git`
 +
 Inside the cloned repository, you'll find a copy of this running sheet (hello!) and a folder called "Projects". This is the folder we want to spend the majority of our time in.
 . Use your command line to change directory into this folder, and then activate your UnityML Anaconda Environment. 
