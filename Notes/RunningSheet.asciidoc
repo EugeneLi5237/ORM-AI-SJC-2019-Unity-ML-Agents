@@ -9,8 +9,6 @@ Paris Buttfield-Addison (@parisba), Tim Nugent (@the_mcjones), Mars Geldard (@th
 
 Additional Material by Jon Manning (@desplesda)
 
-image::images/idiotchild.jpg[]
-
 === Unity Machine Learning Agents Toolkit
 The Unity Machine Machine Learning Agents Toolkit (ML-Agents) is an open-source suite of tools, including Unity plugins, Python scripts, and algorithm implementations, that enables the Unity environment to serve for both training and inference of intelligent agents.
 
@@ -182,11 +180,23 @@ Everything is ready!
 
 We're not here to learn game development with Unity! We're here to explore machine learning! But... to do that, we need to understand how to use Unity. We cannot emphasise this enough! **Being comfortable with Unity is as important as being comfortable with ML-Agents!**
 
-TIP: If you would like to learn Unity, check out our current books on Unity! _Mobile Game Development with Unity_ and _Unity Game Development Cookbook_ (shown in <<fig:unitycb,the image below>>)! We're very proud of our books. Here ends the shameless plug.
+[NOTE]
+====
+**In this activity we're going to:**
+
+* build a little Unity scene 
+* show how a Unity scene includes game objects, components, and how this makes different behaviours possible
+* show how scripts interact with the Unity scene
+====
+
 
 [[fig:unitycb]]
 .Our Unity Game Development Cookbook
 image::images/unitycb.png[]
+
+
+TIP: If you would like to learn Unity, check out our current books on Unity! _Mobile Game Development with Unity_ and _Unity Game Development Cookbook_ (shown in <<fig:unitycb,the image below>>)! We're very proud of our books. Here ends the shameless plug.
+
 
 Before we start, make sure you have **Unity 2019.1.8f1** installed, as shown in <<fig:unityversion>>.
 
