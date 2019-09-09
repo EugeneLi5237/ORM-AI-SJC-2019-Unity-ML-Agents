@@ -20,18 +20,8 @@ default:
     use_curiosity: false
     curiosity_strength: 0.01
     curiosity_enc_size: 128
-    
-Maze_Learning_RL:
-    max_steps: 5.0e4
-    batch_size: 128
-    buffer_size: 2048
-    beta: 1.0e-2
-    hidden_units: 256
-    summary_freq: 2000
-    time_horizon: 64
-    num_layers: 2    
-    
-OSCONCar_RL_LearningBrain:
+
+Car_LearningBrain:
     max_steps: 1.0e6
     batch_size: 100
     beta: 0.001
@@ -42,7 +32,17 @@ OSCONCar_RL_LearningBrain:
     normalize: true
     time_horizon: 1000
     
-WeeGobshite:
+Maze_Learning_RL:
+    max_steps: 5.0e4
+    batch_size: 128
+    buffer_size: 2048
+    beta: 1.0e-2
+    hidden_units: 256
+    summary_freq: 2000
+    time_horizon: 64
+    num_layers: 2    
+
+TinyBrain:
     use_recurrent: true
     sequence_length: 32
     num_layers: 1

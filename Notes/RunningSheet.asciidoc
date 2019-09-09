@@ -118,8 +118,6 @@ Once you've got Unity installed, move to to install the Unity Machine Learning A
 [[installing-mlagents]]
 ==== Installing Python and ML-Agents
 
-
-
 . Make a new directory to keep everything in for this tutorial. Ours is called __UnityML_Workshop_Environment__.
 . Create a new Anaconda environment using Python 3.6. You can do this on the terminal with the following command:
 +
@@ -386,225 +384,91 @@ The second, and perhaps most obvious way if you approach this from the perspecti
 
 We're going to use visual observations (which means cameras); we'll be using vector observations, which is the term for the other kind of observations, in the other activities.
 
-==== Setting up the Car as an Agent
+==== Setting up the Car to Drive
+
+
+[NOTE]
+====
+Some notes on the layout of the car: 
+
+`carController` and `rigidBody` store references to bits of the car. `lapTime` will be used to store the current lap time, `bestLapTime` will store the best lap time of the current run (it's not persisting anything anywhere or anything).
+
+We will use `isCollided` by setting it to true when the car collides with something that it shouldn't (as far as what we want it to learn goes). `startLinePassed` will be used as a flag to figure out if we've lapped the course.
+
+`resetPoint` and `trackWaypoints` are `public`, which as you may remember means they get exposed in the _Inspector_. We'll use `resetPoint` to store a `Transform` representing the reset point for the car, and we'll use `trackWaypoints` to store an array of `Transform`s, representing a path around the track. We'll use those to reset the car back to nearby where it crashed (which, in this context, is colliding with something) by picking the closest one when a crash happens.
+
+`agentIsTraining` will be used (and exposed in the _Inspector_) to change the car's behaviour a little bit when we're training, vs when we're not. We could this by asking the ML-Agents system what its brain settings are, but we're doing it this way to make it clearer what's going on.
+====
 
 . Expand "Activity2-SelfDrivingCar" in the _Project_ pane of Unity, as shown in <<fig:addnewtocar>>.
 
 [[fig:addnewtocar]]
 .Open Activity 2
-image::images/addnewtocar.png[]
+image::images/?.png[]
 
 [start=2]
-. Create a new C# script in the Racer project. We named ours CarAgent.cs. Delete everything but the imports (the `using` statements).
-. Add `MLAgents` to the imports at the top:
+. Open the "Scripts" folder in the project, and find CarAgent.cs.
+. Inside CarAgent.cs, find the `AgentAction()` function.
+. Add the following code:
 +
 [source,csharp]
 ----
-using MLAgents;
-----
-. Next, set our `namespace` to the `UnityStandardAssets.Vehicles.Car`, and create a `class` for the `CarAgent`, descending from `Agent` (as all Agents in ML-Agents do):
-+
-[source,csharp]
-----
-namespace UnityStandardAssets.Vehicles.Car {
-	[RequireComponent(typeof(CarController))]
-	public class CarAgent : Agent {
-	
-	}
-----
-. Add some member variables inside the `class` (we'll explain what each is for in a moment):
-+
-[source,csharp]
-----
-		private CarController carController;
-		private Rigidbody rigidBody;
-		
-		private float lapTime = 0;
-		private float bestLapTime = 0;
-		private bool isCollided = false;
-		private bool startLinePassed = false;
-		
-		public Transform resetPoint;
-		public Transform[] trackWaypoints = Transform[14];
-		
-		public bool agentIsTraining = false;
-----
-+
-`carController` and `rigidBody` store references to bits of the car. `lapTime` will be used to store the current lap time, `bestLapTime` will store the best lap time of the current run (it's not persisting anything anywhere or anything).
-+
-We will use `isCollided` by setting it to true when the car collides with something that it shouldn't (as far as what we want it to learn goes). `startLinePassed` will be used as a flag to figure out if we've lapped the course.
-+
-`resetPoint` and `trackWaypoints` are `public`, which as you may remember means they get exposed in the _Inspector_. We'll use `resetPoint` to store a `Transform` representing the reset point for the car, and we'll use `trackWaypoints` to store an array of `Transform`s, representing a path around the track. We'll use those to reset the car back to nearby where it crashed (which, in this context, is colliding with something) by picking the closest one when a crash happens.
-+ 
-`agentIsTraining` will be used (and exposed in the _Inspector_) to change the car's behaviour a little bit when we're training, vs when we're not. We could this by asking the ML-Agents system what its brain settings are, but we're doing it this way to make it clearer what's going on.
-. Next, we need an `Awake()` function:
-+
-[source,csharp]
-----
-public void Awake() {
-	carController = GetComponent<CarController>();
-	rigidBody = GetComponent<Rigidbody>();
+public override void AgentAction(float[] vectorAction, string textAction) {
+            float h = vectorAction[0];
+            carController.Move(h, 1, 0, 0);
 }
 ----
-. Next, we need to create an `AgentReset()` function, which is going to be a long one. We'll do a few things in this function:
-+
-	- reset the car to the closest waypoint if we're in training (as defined by the `agentIsTraining` `bool` that we created)
-	- reset to the `resetPoint` (which we'll set to the beginning of the track) if we're not training
-	- and, regardless of the status of `agentIsTraining`, set the car's velocity to `0`, and set `isCollided` to `false` (because if we're resetting its position to a known good position----one of the waypoints, or the start position----then we know it's not colliding)
-. The `AgentReset()` code should be:
-+
-[source,csharp]
-----
-        public override void AgentReset() {
-            // Reset to closest waypoint if we're training
-            if(agentIsTraining) {
-                float min_distance = 1e+6f;
-                int index = 0;
-                for(int i = 1; i < trackWaypoints.Length; i++) {
-                    float distance = Vector3.SqrMagnitude(trackWaypoints[i].position - transform.position);
-                    if(distance < min_distance) {
-                        min_distance = distance;
-                        index = i;
-                    }
-                }
-                transform.SetPositionAndRotation(trackWaypoints[index-1].position, new Quaternion(0,0,0,0));
-                transform.LookAt(trackWaypoints[index].position);
-            } else {
-                // Reset to beginning if we're NOT training
-                lapTime = 0;
-                transform.position = resetPoint.position;
-                transform.rotation = resetPoint.rotation;
-            }
+. Drive the car! What problems do we see here?
 
-            // No matter whether we're training or not, we also need to:
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
-            isCollided = false;
-        }
-----
-. Next, we'll add a `FixedUpdate()` function, which is called every physics update, and use that to update the `lapTime`:
+. We need to give the car some awareness that it's collided with something. Add the following code below the code we added earlier, inside `AgentAction()`:
 +
 [source,csharp]
 ----
-void FixedUpdate() {
-	lapTime += Time.fixedDeltaTime;
+// Once the actions are done, we need to check:
+if(isCollided) {
+    // we hit something
+    Done();
+} else {
+    // we did not hit something
 }
 ----
-. Add an `OnTriggerEnter()`, which  we'll use to set `isCollided`, as well as work with the `lapTime`:
+. Drive the car! Now, if we hit the barriers, we'll get reset. Neat, right?
+
+==== Adding Rewards
+
+. Inside our `AgentAction()` function, we need to add some rewards. Add the following penalty "reward" before we call `Done()` inside the collision check:
 +
 [source,csharp]
 ----
-        private void OnTriggerEnter(Collider other) {
-            // if we hit the start line...
-            if(other.CompareTag("StartLine")) {
-                if(!startLinePassed) {
-                    if (lapTime < bestLapTime) {
-                        bestLapTime = lapTime;
-                    }
-                    Debug.Log("Lap completed: " + lapTime);
-                    lapTime = 0;
-                    startLinePassed = true;
-                }
-            } else {
-                // we hit a wall...
-                isCollided = true;
-            }
-        }
+AddReward(-1.0f); 
 ----
-. This will also need an `OnTriggerExit()`:
+. And add the following reward for driving properly if we did not hit something:
 +
 [source,csharp]
 ----
-        private void OnTriggerExit(Collider other) {
-            startLinePassed = false;
-        }
+AddReward(0.05f); 
 ----
-. We'll also add a `CollectObservations()` function, which is where any Observations we want the car to have can be collected. We'll leave it empty right now:
+. The check should now look like this:
 +
 [source,csharp]
 ----
-public override void CollectObservations() {
-	// observations might be collected here
+// Once the actions are done, we need to check:
+if(isCollided) {
+    // we hit something
+    AddReward(-1.0f); // you get a punishment, you get a punishment, we all get punishments!
+    Done();
+} else {
+    // we did not hit something
+    AddReward(0.05f); // what a good car you are!
 }
 ----
-. Back in Unity, add the CarAgent.cs script to the Car. 
-. Don't forget to set up the public variables in the Car Agent's _Inspector_ pane.
 
-==== Creating an Academy for the Car
 
-We don't need much in the Academy for the car, because the environment doesn't need any special setup:
-
-. Create a new C# Script called CarAcademy.cs
-. Remove everything but the imports (the `using` statements), and add the following after the existing three:
-+
-[source,csharp]
-----
-using MLAgents;
-----
-. And then add a `class`:
-+
-[source,csharp]
-----
-public class CarAcademy : Academy {
-	// academy things go here
-}
-----
-+
-We don't actually need to put anything in our academy!
-. Create an empty GameObject in the scene, and attach the CarAcademy.cs script to it. 
-
-==== Letting the Car take Actions
-
-. An important part of allowing the car to behave as we described above is letting it know when it's collided with something that it shouldn't have. We'll add `bool` `isCollided` to the CarAgent.cs script, which we'll set when the car has collided with something bad. Add the following member variable to the `class` `CarAgent`:
-+
-[source,csharp]
-----
-	private bool isCollided = false;
-----
-
-. To let the car take actions, we need to set up its `AgentAction()` funtion. Inside the CarAgent.cs file, find the `AgentAction()` function, and add the following:
-+
-[source,csharp]
-----
-		float h = vectorAction[0];
-		carController.Move(h, 1, 0, 0);
-----
-+
-This snippet of code creates a `float`, `h`, and stores the first component of the `vectorAction[0]` array in it. We then pass `h` into the `Move` function of our `carController`.
-+
-We also send in `1`, `0`, and `0`. This is interesting we need to do control the car using `AgentAction()`. 
-. Next, we need to add a new function called `OnTriggerEnter()`, which is automatically called by Unity when the object the script is attached to collides with something (remember our bouncing ball, from earlier!) Create a new function (still in CarAgent.cs):
-+
-[source,csharp]
-----
-private void OnTriggerEnter(Collider other) {
-	// we'll put some code here in a moment
-}
-----
-. Inside this function need set the `isCollided` `bool` that we created earlier to `true`, because if this function was called at all, then we are, in fact, collided! Add the following inside the new function:
-+
-[source,csharp]
-----
-	isCollided = true;
-----
-. Next, go back to `AgentAction()`, and at the end add:
-+
-[source,csharp]
-----
-            // Once the actions are done, we need to check:
-            if(isCollided) {
-                // we hit something
-                AddReward(-1.0f); // you get a punishment, you get a punishment, we all get punishments!
-                Done();
-            } else {
-                // we did not hit something
-                AddReward(0.05f); // what a good car you are!
-            }
-----
+==== Training the Car
 
 We'll now look at training the car with **reinforcement learning** and **imitation learning**!
 
-To train the car with **reinforcement learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like OSCON-RL-Car.yaml, with the following in it:
+To train the car with **reinforcement learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like aiconf_config.yaml, with the following in it:
 +
 [source,yaml]
 ----
@@ -630,8 +494,8 @@ default:
     use_curiosity: false
     curiosity_strength: 0.01
     curiosity_enc_size: 128
-    
-OSCONCar_RL_LearningBrain:
+
+Car_LearningBrain:
     max_steps: 1.0e6
     batch_size: 100
     beta: 0.001
@@ -643,17 +507,17 @@ OSCONCar_RL_LearningBrain:
     time_horizon: 1000
 ----
 +
-Your learning brain will need to be named the same as the second set of parameters (in this case, "OSCONCar_RL_LearningBrain"). 
+Your learning brain will need to be named the same as the second set of parameters (in this case, "Car_LearningBrain"). 
 
 TIP: Don't forget to set the parameters of the brain and academy in Unity for training! You'll want the control checkbox checked next to the learning brain, any existing models detached from the brain, and you probably want the speed and quality of the simulation turned down.
 
 To train the reinforcement learning brain, the following command will be used:
 +
-`mlagents-learn config/OSCON-RL-Car.yaml --run-id=OSCONCarRL1 --train`
+`mlagents-learn config/aiconf_config.yaml --run-id=AIConfCar1 --train`
 +
 We recommend incrementing the run-id parameter if you change something significant. You can also resume training on a run that was used before (adding more information to the neural net), by adding `--load` to the end of the above command. That will resume the named run-id.
 
-To train the car with **imitation learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like OSCON-IL-Car.yaml, with the following in it:
+To train the car with **imitation learning**, you'll need a yaml file in the config directory (PROJECT/Projects/ML-Agents/ml-agents/config), named something like aiconf_imitation_config.yaml, with the following in it:
 +
 [source,yaml]
 ----
@@ -669,7 +533,7 @@ default:
     num_layers: 2
     sequence_length: 32
     memory_size: 256
-    demo_path: ./UnitySDK/Assets/Demonstrations/PATH-TO-DEMO.demo
+    demo_path: ./UnitySDK/Assets/Demonstrations/PATH_TO_DEMO.demo
 ----
 +
 You'll need to relace the .demo file in the parameters with one you want to use, as recorded in the Unity environment. To record a demo:
@@ -682,7 +546,7 @@ You'll need to relace the .demo file in the parameters with one you want to use,
 
 To train the imitation learning brain, the following command will be used:
 +
-`mlagents-learn config/OSCON-IL-Car.yaml --run-id=OSCONCarIL1 --train`
+`mlagents-learn config/aiconf_imitation_config.yaml --run-id=AIConfCarIL1 --train`
 +
 We recommend incrementing the run-id parameter if you change something significant. You can also resume training on a run that was used before (adding more information to the neural net), by adding `--load` to the end of the above command. That will resume the named run-id.
 
