@@ -200,14 +200,11 @@ image::images/unityversion.png[]
 
 Let's learn to find our way around Unity by building a simple 3D environment in Unity. This environment won't have any machine learning, or even be connected with the ML-Agents Toolkit. Let's get started:
 
-. Open the __Unity Hub__ application, and use the _New_ button on the _Projects_ screen to create a new Unity project. A templates and settings screen will display: select _3D_, name the project "SimpleEnvironment", and set the location to the directory we created for the workshop material <<anaconda-setup,earlier>>. It should resemble ours, shown in <<fig:projectsettings>>.
-
-[[fig:projectsettings]]
-.Creating a new Unity project
-image::images/projectsettings.png[]
+. Open the __Unity Hub__ application, and use the __Add__ button on the _Projects_ screen to open our provided Unity project. The folder you want to open is _ORM-AI-SJC-2019-Unity-ML-Agents/ML-Agents/ml-agents/UnitySDK_. This folder is our Unity project.
+. Create a new Scene in the "Activity1-UnityBasics" folder. Open the scene.
 
 [start=2]
-. Your new Unity project will open, as shown in <<fig:emptyproject>>. Unity's default view is made up of some standard components:
+. Your new Unity scene will open, as shown in <<fig:emptyproject>>. Unity's default view is made up of some standard components:
     
     - The _Scene_ and _Game_ views in the middle. The _Scene_ is editable, and the _Game_ shows what environment looks like when running.
     - The _Hierarchy_ on the left, which shows the contents of the current _Scene_.
