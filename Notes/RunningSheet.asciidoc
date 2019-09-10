@@ -608,6 +608,19 @@ public override void AgentAction(float[] vectorAction, string textAction)
     }
 ----
 
+We also need to setup the rewards and penalties appropriately:
+
+. In `IScoredAGoal()`, which is called when the crate is delivered correctly, reward the robot:
+[source,csharp]
+----
+AddReward(5f);
+----
+. And in `IHitWrongGoal()`, which is called when he delivers a crate to the wrong goal, punish him:
+[source,csharp]
+----
+AddReward(-5f);
+----
+
 [[training-the-robot]]
 ==== Training the robot
 
