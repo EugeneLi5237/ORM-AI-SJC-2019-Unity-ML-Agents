@@ -189,21 +189,15 @@ We're not here to learn game development with Unity! We're here to explore machi
 * show how scripts interact with the Unity scene
 ====
 
-
 [[fig:unitycb]]
 .Our Unity Game Development Cookbook
 image::images/unitycb.png[]
 
-
 TIP: If you would like to learn Unity, check out our current books on Unity! _Mobile Game Development with Unity_ and _Unity Game Development Cookbook_ (shown in <<fig:unitycb,the image below>>)! We're very proud of our books. Here ends the shameless plug.
 
-Before we start, make sure you have **Unity 2019.1.8f1** installed, as shown in <<fig:unityversion>>.
+Before we start, make sure you have **Unity 2019.2.4f1** installed.
 
 TIP: It's not the end of the world if you're running a slightly different version of Unity, just try to be as close to our version as possible.
-
-[[fig:unityversion]]
-.The version of Unity we’ll be using today
-image::images/unityversion.png[]
 
 ==== Creating a bouncing ball
 
@@ -406,11 +400,8 @@ We will use `isCollided` by setting it to true when the car collides with someth
 `agentIsTraining` will be used (and exposed in the _Inspector_) to change the car's behaviour a little bit when we're training, vs when we're not. We could this by asking the ML-Agents system what its brain settings are, but we're doing it this way to make it clearer what's going on.
 ====
 
-. Expand "Activity2-SelfDrivingCar" in the _Project_ pane of Unity, as shown in <<fig:addnewtocar>>.
+. Expand "Activity2-SelfDrivingCar" in the _Project_ pane of Unity.
 
-[[fig:addnewtocar]]
-.Open Activity 2
-image::images/?.png[]
 
 [start=2]
 . Open the "Scripts" folder in the project, and find CarAgent.cs.
