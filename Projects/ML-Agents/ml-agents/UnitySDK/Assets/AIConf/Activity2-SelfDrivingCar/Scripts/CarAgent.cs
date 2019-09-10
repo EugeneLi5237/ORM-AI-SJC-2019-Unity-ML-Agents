@@ -14,7 +14,7 @@ namespace UnityStandardAssets.Vehicles.Car {
         private float bestLapTime = 0;
         private bool isCollided = false;
         private bool startLinePassed = false;
-        public bool agentIsTraining = false;
+        public bool resetToClosestWaypoint = false;
 
         public Transform[] trackWaypoints = new Transform[14];
 
@@ -36,7 +36,7 @@ namespace UnityStandardAssets.Vehicles.Car {
 
         public override void AgentReset() {
             // Reset to closest waypoint if we're training
-            if(agentIsTraining) {
+            if(resetToClosestWaypoint) {
                 float min_distance = 1e+6f;
                 int index = 0;
                 for(int i = 1; i < trackWaypoints.Length; i++) {

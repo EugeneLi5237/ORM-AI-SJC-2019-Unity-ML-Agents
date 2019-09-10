@@ -401,9 +401,7 @@ We will use `isCollided` by setting it to true when the car collides with someth
 ====
 
 . Expand "Activity2-SelfDrivingCar" in the _Project_ pane of Unity.
-
-
-[start=2]
+. In the "Scenes" folder, open "Track_AIConf" scene.
 . Open the "Scripts" folder in the project, and find CarAgent.cs.
 . Inside CarAgent.cs, find the `AgentAction()` function.
 . Add the following code:

@@ -6601,7 +6601,7 @@ MonoBehaviour:
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
   resetPoint: {fileID: 2144266033}
-  agentIsTraining: 0
+  resetToClosestWaypoint: 0
   trackWaypoints:
   - {fileID: 2144266033}
   - {fileID: 862440258}
