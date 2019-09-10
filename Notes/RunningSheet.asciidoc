@@ -16,7 +16,7 @@ This document provides an outline of the material from the tutorial https://conf
 
 It's not really intended to stand-alone, without readers having attended the conference, but it could still be useful!
 
-This document is sourced from, and accompanied by, the contents of this GitHub repository: https://github.com/parisba/ORM-AI-SJC-2019-Unity-ML-Agents/
+This document is sourced from, and accompanied by, the contents of this GitHub repository: https://github.com/parisba/ORM-AI-SJC-2019--ML-Agents/
 
 WARNING: This document isn't intended to explain why everything works the way it does. This document is here to help you keep your place with the tutorial content at AI Conference. It's so you don't fall behind, and have something to refer to if you need to catch up. We recommend you keep your own notes about why things work the way they do.
 
@@ -99,7 +99,7 @@ Installing Unity is the easiest bit. We recommend downloading and using the offi
 
 The Unity Hub allows you to manage multiple installs of different versions of Unity, and lets you select which version of Unity you open and create projects with.
 
-WARNING: We've pinned the version of Unity being used for this tutorial to **Unity 2019.1.8f1**. Everything will probably work with a newer version, but we make no guarantees. It's easier for everyone if you stick to the verison we suggest! 
+WARNING: We've pinned the version of Unity being used for this tutorial to **Unity 2019.2.4f1**. Everything will probably work with a newer version, but we make no guarantees. It's easier for everyone if you stick to the verison we suggest! 
 
 If you don’t want to use the Unity Hub, you can download different versions of Unity for your platform manually:
 
@@ -135,7 +135,7 @@ image::images/env_setup.png[]
 `pip install tensorflow==1.7.1`
 . And finally (almost) install ML-Agents, using the following command:
 +
-`pip install mlagents==0.8.2`
+`pip install mlagents`
 . Once this is done, you can check that ML-Agents is installed successfully using the following command:
 +
 `mlagents-learn --help`
