@@ -28,6 +28,18 @@ namespace UnityStandardAssets.Vehicles.Car {
         // Called every tick to check what the car should do next
         public override void AgentAction(float[] vectorAction, string textAction) {
             // agent's action code goes here
+
+            float h = vectorAction[0];
+            carController.Move(h, 1, 0, 0);
+
+            if(isCollided) {
+            // we hit something
+                AddReward(-1.0f); // you get a punishment, you get a punishment, we all get punishments!
+                Done();
+            } else {
+                // we did not hit something
+                AddReward(0.05f); // what a good car you are!
+            }
         }
 
         public override void CollectObservations() {

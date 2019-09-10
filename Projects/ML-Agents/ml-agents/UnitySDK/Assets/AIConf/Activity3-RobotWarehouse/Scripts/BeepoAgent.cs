@@ -131,8 +131,8 @@ public class BeepoAgent: Agent, IPushAgent
     /// </summary>
     public void IScoredAGoal(GameObject target, GameObject goal)
     {
-        // We use a reward of 5.
-        AddReward(5f);
+        // This is where a reward would go
+
         Debug.Log("Agent delivered package!");
 
         var allGoalsComplete = true;
@@ -151,8 +151,7 @@ public class BeepoAgent: Agent, IPushAgent
 
     public void IHitWrongGoal(GameObject target, GameObject goal)
     {
-        // We use a reward of -5.
-        AddReward(-5f);
+        // this is where we punish Beepo
     }
 
     /// <summary>
