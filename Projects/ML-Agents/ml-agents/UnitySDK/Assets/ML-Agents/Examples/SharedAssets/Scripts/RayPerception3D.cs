@@ -53,7 +53,7 @@ namespace MLAgents
                 if (Application.isEditor)
                 {
                     Debug.DrawRay(transform.position + new Vector3(0f, startOffset, 0f),
-                        endPosition, Color.black, 0.01f, true);
+                        endPosition, Color.green, 0.01f, true);
                 }
 
                 Array.Clear(subList, 0, subList.Length);
