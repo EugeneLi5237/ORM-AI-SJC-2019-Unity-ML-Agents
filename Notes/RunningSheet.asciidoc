@@ -695,7 +695,7 @@ In this activity, we're going to take the warehouse buggy, "Beepo", and give him
 
 To do this, we're going to use reinforcement learning, and some vector observations.
 
-Next, train the agent!
+The code is already setup, so we're just going to train the agent!
 
 . Add the following to a config yaml file:
 +

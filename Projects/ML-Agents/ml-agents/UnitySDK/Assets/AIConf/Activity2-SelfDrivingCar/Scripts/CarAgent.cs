@@ -27,7 +27,11 @@ namespace UnityStandardAssets.Vehicles.Car {
         // When the agent requests an action
         // Called every tick to check what the car should do next
         public override void AgentAction(float[] vectorAction, string textAction) {
-            // code goes here
+            // agent's action code goes here
+        }
+
+        public override void CollectObservations() {
+            // collect observations here, if you're not just using visual obs
         }
 
         public override void AgentReset() {
@@ -55,11 +59,6 @@ namespace UnityStandardAssets.Vehicles.Car {
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
             isCollided = false;
-        }
-
-        public override void CollectObservations() {
-            // Current speed
-            //AddVectorObs(rigidBody.velocity.sqrMagnitude / 300.0f);
         }
         
         void FixedUpdate() {

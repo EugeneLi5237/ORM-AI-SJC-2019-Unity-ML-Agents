@@ -21,6 +21,22 @@ default:
             strength: 1.0
             gamma: 0.99
 
+Car_LearningBrain:
+    max_steps: 5.0e4
+    batch_size: 128
+    buffer_size: 2048
+    beta: 1.0e-2
+    hidden_units: 256
+    summary_freq: 2000
+    time_horizon: 64
+    num_layers: 2
+    reward_signals:
+        gail:
+            strength: 0.05
+            gamma: 0.95
+            encoding_size: 128
+            demo_path: ./UnitySDK/Assets/Demonstrations/AIConf1.demo  
+
 PyramidsLearning:
     summary_freq: 2000
     time_horizon: 128

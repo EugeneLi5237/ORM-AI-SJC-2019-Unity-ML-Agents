@@ -79,16 +79,14 @@ public class BeepoAgent: Agent, IPushAgent
     public override void CollectObservations()
     {
         // code for obs goes here
-        var rayDistance = 12f;
+    }
 
-        float[] rayAngles = { 0f, 45f, 90f, 135f, 180f, 110f, 70f };
-
-        var detectableObjects = new[] { "crate", "goal", "wall" };
-
-        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
-
-        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
-
+    /// <summary>
+    /// Called every step of the engine. Here the agent takes an action.
+    /// </summary>
+	public override void AgentAction(float[] vectorAction, string textAction)
+    {
+        // code for actions goes here
     }
 
     /// <summary>
@@ -126,19 +124,6 @@ public class BeepoAgent: Agent, IPushAgent
 
         agentRB.AddForce(dirToGo * academy.agentRunSpeed,
                          ForceMode.VelocityChange);
-    }
-
-    /// <summary>
-    /// Called every step of the engine. Here the agent takes an action.
-    /// </summary>
-	public override void AgentAction(float[] vectorAction, string textAction)
-    {
-        // code goes here
-                // Move the agent using the action.
-        MoveAgent(vectorAction);
-
-        // Penalty given each step to encourage agent to finish task quickly.
-        AddReward(-1f / agentParameters.maxStep);
     }
 
     /// <summary>
