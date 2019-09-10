@@ -27,7 +27,7 @@ namespace UnityStandardAssets.Vehicles.Car {
         // When the agent requests an action
         // Called every tick to check what the car should do next
         public override void AgentAction(float[] vectorAction, string textAction) {
-            // To be filled in!
+            // code goes here
         }
 
         public override void AgentReset() {

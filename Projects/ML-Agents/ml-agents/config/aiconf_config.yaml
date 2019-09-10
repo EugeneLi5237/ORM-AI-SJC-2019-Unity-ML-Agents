@@ -4,7 +4,6 @@ default:
     beta: 5.0e-3
     buffer_size: 10240
     epsilon: 0.2
-    gamma: 0.99
     hidden_units: 128
     lambd: 0.95
     learning_rate: 3.0e-4
@@ -17,26 +16,19 @@ default:
     sequence_length: 64
     summary_freq: 1000
     use_recurrent: false
-    use_curiosity: false
-    curiosity_strength: 0.01
-    curiosity_enc_size: 128
-    
-WarehouseOneCrate_Learning:
-    max_steps: 5.0e4
-    batch_size: 128
-    buffer_size: 2048
-    beta: 1.0e-2
-    hidden_units: 256
-    summary_freq: 2000
-    time_horizon: 64
-    num_layers: 2
-    
-WarehouseFourCrates_Learning:
-    max_steps: 5.0e4
-    batch_size: 128
-    buffer_size: 2048
-    beta: 1.0e-2
-    hidden_units: 256
-    summary_freq: 2000
-    time_horizon: 64
-    num_layers: 2
+    vis_encode_type: simple
+    reward_signals: 
+        extrinsic:
+            strength: 1.0
+            gamma: 0.995
+
+Car_LearningBrain:
+    max_steps: 1.0e6
+    batch_size: 100
+    beta: 0.001
+    buffer_size: 12000
+    gamma: 0.995
+    lambd: 0.99
+    learning_rate: 0.0003
+    normalize: true
+    time_horizon: 1000

@@ -42,8 +42,6 @@ public class BeepoAgent: Agent, IPushAgent
 
     RayPerception rayPer;
 
-      // ============== ABOVE HERE SHOULD NOT NEED TO TOUCH =============
-
     void Awake()
     {
         academy = FindObjectOfType<BeepoAcademy>(); //cache the academy
@@ -81,6 +79,16 @@ public class BeepoAgent: Agent, IPushAgent
     public override void CollectObservations()
     {
         // code for obs goes here
+        var rayDistance = 12f;
+
+        float[] rayAngles = { 0f, 45f, 90f, 135f, 180f, 110f, 70f };
+
+        var detectableObjects = new[] { "crate", "goal", "wall" };
+
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
+
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
+
     }
 
     /// <summary>
@@ -126,6 +134,11 @@ public class BeepoAgent: Agent, IPushAgent
 	public override void AgentAction(float[] vectorAction, string textAction)
     {
         // code goes here
+                // Move the agent using the action.
+        MoveAgent(vectorAction);
+
+        // Penalty given each step to encourage agent to finish task quickly.
+        AddReward(-1f / agentParameters.maxStep);
     }
 
     /// <summary>
