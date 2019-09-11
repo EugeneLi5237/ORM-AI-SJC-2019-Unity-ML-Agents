@@ -27,18 +27,17 @@ namespace UnityStandardAssets.Vehicles.Car {
         // When the agent requests an action
         // Called every tick to check what the car should do next
         public override void AgentAction(float[] vectorAction, string textAction) {
-            // agent's action code goes here
-
-            float h = vectorAction[0];
+            // action code goes here
+            float h = vectorAction[0]; // this will be -1 or 1 (left or right)
             carController.Move(h, 1, 0, 0);
 
             if(isCollided) {
-            // we hit something
-                AddReward(-1.0f); // you get a punishment, you get a punishment, we all get punishments!
-                Done();
+                // we hit something
+                AddReward(-1.0f); // this is bad, you get punished
+                Done(); // reset the car
             } else {
                 // we did not hit something
-                AddReward(0.05f); // what a good car you are!
+                AddReward(0.05f); // this is good, you get a small reward
             }
         }
 

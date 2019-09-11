@@ -79,6 +79,14 @@ public class BeepoAgent: Agent, IPushAgent
     public override void CollectObservations()
     {
         // code for obs goes here
+        var rayDistance = 12f;
+
+        float[] rayAngles = { 0f, 45f, 90f, 135f, 180f, 110f, 70f };
+
+        var detectableObjects = new[] { "crate", "goal", "wall" };
+
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
+        AddVectorObs(rayPer.Perceive(rayDistance, rayAngles, detectableObjects, 1.5f, 0f));
     }
 
     /// <summary>
@@ -87,6 +95,9 @@ public class BeepoAgent: Agent, IPushAgent
 	public override void AgentAction(float[] vectorAction, string textAction)
     {
         // code for actions goes here
+        MoveAgent(vectorAction);
+
+        AddReward(-1f / agentParameters.maxStep);
     }
 
     /// <summary>
@@ -132,6 +143,7 @@ public class BeepoAgent: Agent, IPushAgent
     public void IScoredAGoal(GameObject target, GameObject goal)
     {
         // This is where a reward would go
+        AddReward(5f); // nice big reward
 
         Debug.Log("Agent delivered package!");
 
@@ -152,6 +164,7 @@ public class BeepoAgent: Agent, IPushAgent
     public void IHitWrongGoal(GameObject target, GameObject goal)
     {
         // this is where we punish Beepo
+        AddReward(-5f);
     }
 
     /// <summary>

@@ -6553,7 +6553,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1715640925, guid: 24b800c2b421f44a5b8234cd5f7ca7b7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.53
+      value: 2.94
       objectReference: {fileID: 0}
     - target: {fileID: 1715640925, guid: 24b800c2b421f44a5b8234cd5f7ca7b7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6591,7 +6591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80876eca766d74e439ca76681104af84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: f56a2258ecf3f48459f7faffccfed126, type: 2}
+  brain: {fileID: 11400000, guid: b881049dd4f7d4ad58592cb95f69c2c8, type: 2}
   agentParameters:
     agentCameras:
     - {fileID: 908185697}
@@ -6601,7 +6601,7 @@ MonoBehaviour:
     onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
   resetPoint: {fileID: 2144266033}
-  resetToClosestWaypoint: 0
+  resetToClosestWaypoint: 1
   trackWaypoints:
   - {fileID: 2144266033}
   - {fileID: 862440258}
@@ -6617,6 +6617,34 @@ MonoBehaviour:
   - {fileID: 961966143}
   - {fileID: 1897207699}
   - {fileID: 2144266033}
+--- !u!114 &1234950129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234950124}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f710d360a49461cad67ff5e6bcefe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  record: 0
+  demonstrationName: 
+--- !u!114 &1234950130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234950124}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1cf16abc39fb4d6ca81222fc73d1bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recordKey: 114
+  resetKey: 99
 --- !u!4 &1245971546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e409372fa827944e88e6ffad739c2bd6,
